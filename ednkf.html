@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ben Greg | Elite Developer Portfolio</title>
+    
+    <!-- Scripts & Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+
+    <style>
+    body {
+        background-color: #050505;
+        color: white;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        overflow-x: hidden;
+        width: 100%;
+    }
+
+    /* CRITICAL: Force no horizontal scroll */
+    html, body {
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    .green-glow { text-shadow: 0 0 20px rgba(34, 197, 94, 0.6); }
+
+    .glass {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Fluid Typography - Text shrinks based on screen width */
+    h1 { font-size: clamp(2.2rem, 8vw, 7rem) !important; line-height: 1.1 !important; }
+    h2 { font-size: clamp(2rem, 6vw, 5rem) !important; line-height: 1 !important; }
+    
+    /* Utility for long strings (like emails) */
+    .break-words-custom {
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+
+    /* Project Number Positioning Fix for Mobile */
+    .project-number {
+        font-size: clamp(8rem, 20vw, 20rem);
+        line-height: 1;
+        pointer-events: none;
+    }
+
+    /* Swiper Fixes to prevent cutting off parts of the card */
+    #testimonial { overflow: hidden; }
+    .testimonialSwiper { 
+        overflow: visible !important; 
+        width: 100%; 
+    }
+    .swiper-slide {
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        display: flex;
+        height: auto !important;
+    }
+    .swiper-slide-active { opacity: 1; }
+    .swiper-slide > div { width: 100%; flex: 1; }
+
+    /* Reveal states */
+    .reveal, .reveal-up, .reveal-zoom {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+</style>
+</head>
+<body>
+
+    <!-- 3D Background -->
+    <div id="canvas-container"></div>
+
+    <!-- Navigation -->
+    <!-- Enhanced Floating Navigation -->
+<header class="fixed top-0 left-0 w-full z-[100] px-4 py-6 md:px-10 transition-all duration-500" id="main-header">
+    <nav class="max-w-7xl mx-auto">
+        <div class="glass border border-white/10 rounded-2xl px-4 md:px-6 py-3 flex justify-between items-center relative overflow-hidden">            
+            <!-- 1. Logo Section -->
+            <div class="flex items-center gap-2 group cursor-pointer">
+                <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform duration-300 shadow-[0_0_15px_rgba(34,197,94,0.5)]">
+                    <span class="text-black font-black text-xl">B</span>
+                </div>
+                <div class="text-2xl font-black tracking-tighter text-white group-hover:text-green-500 transition-colors">
+                    BEN<span class="text-green-500 group-hover:text-white">GREG.</span>
+                </div>
+            </div>
+
+            <!-- 2. Desktop Navigation (Centered) -->
+            <div class="hidden md:flex items-center space-x-1">
+                <a href="#about" class="nav-link relative px-4 py-2 text-sm font-semibold tracking-wide text-gray-300 hover:text-green-400 transition-colors group">
+                    About
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-green-500 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#services" class="nav-link relative px-4 py-2 text-sm font-semibold tracking-wide text-gray-300 hover:text-green-400 transition-colors group">
+                    Services
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-green-500 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#projects" class="nav-link relative px-4 py-2 text-sm font-semibold tracking-wide text-gray-300 hover:text-green-400 transition-colors group">
+                    Work
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-green-500 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#testimonial" class="nav-link relative px-4 py-2 text-sm font-semibold tracking-wide text-gray-300 hover:text-green-400 transition-colors group">
+                    Testimonials
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-green-500 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+            </div>
+
+            <!-- 3. Actions / Hire Me -->
+            <div class="flex items-center gap-4">
+                <a href="#contact" class="hidden sm:flex px-6 py-2.5 bg-green-600 text-black font-bold rounded-xl hover:bg-white hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-all duration-300 transform active:scale-95">
+                    Start a Project
+                </a>
+                
+                <!-- Mobile Menu Toggle -->
+                <button class="md:hidden w-10 h-10 flex flex-col justify-center items-center gap-1.5 group" id="mobile-menu-btn">
+                    <span class="w-6 h-0.5 bg-white group-hover:bg-green-500 transition-all" id="line1"></span>
+                    <span class="w-6 h-0.5 bg-white group-hover:bg-green-500 transition-all" id="line2"></span>
+                    <span class="w-4 h-0.5 bg-green-500 self-end mr-2 group-hover:w-6 transition-all" id="line3"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-overlay" class="fixed inset-0 bg-black/95 z-[99] translate-x-full transition-transform duration-500 flex flex-col items-center justify-center gap-8 md:hidden">
+        <a href="#about" class="mobile-nav-item text-4xl font-bold hover:text-green-500 transition">About</a>
+        <a href="#services" class="mobile-nav-item text-4xl font-bold hover:text-green-500 transition">Services</a>
+        <a href="#projects" class="mobile-nav-item text-4xl font-bold hover:text-green-500 transition">Work</a>
+        <a href="#contact" class="mobile-nav-item text-4xl font-bold hover:text-green-500 transition">Contact</a>
+        <a href="#contact" class="hidden sm:flex px-6 py-2.5 bg-green-600 text-black font-bold rounded-xl hover:bg-white hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-all duration-300 transform active:scale-95">
+                    Start a Project
+        </a>
+        
+        <button id="close-menu" class="absolute top-10 right-10 text-white hover:text-green-500">
+            <i data-lucide="x" class="w-10 h-10"></i>
+        </button>
+    </div>
+</header>
+
+    <!-- Hero Section -->
+    <!-- Hero Section: The "Masterpiece" Version -->
+<section class="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-24 md:pt-20 px-4 md:px-10">
+    <div class="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center relative z-10">
+        <div class="hero-text-area space-y-6 md:space-y-8 text-center lg:text-left">
+            <div class="reveal inline-flex items-center gap-2 px-3 py-1 rounded-full border border-green-500/30 bg-green-500/5 backdrop-blur-md">
+                <span class="text-[10px] md:text-xs font-bold tracking-widest text-green-500 uppercase">Available for Elite Projects</span>
+            </div>
+
+            <h1 class="font-black tracking-tighter">
+                <span class="text-white">ARCHITECTING</span><br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-green-200 to-green-600 animate-gradient">DIGITAL REALITIES.</span>
+            </h1>
+
+            <p class="reveal text-gray-400 text-base md:text-xl max-w-xl mx-auto lg:mx-0 leading-relaxed border-l-0 lg:border-l-2 border-green-500/20 lg:pl-6">
+                I am <span class="text-white font-bold">Ben Greg</span>. I build high-frequency investment engines, immersive ecosystems, and 3D web experiences.
+            </p>
+
+            <div class="reveal flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 md:gap-6">
+                <a href="#projects" class="w-full sm:w-auto px-8 py-4 rounded-full bg-green-500 font-black text-black transition-all hover:scale-105 text-center">
+                    EXPLORE MY WORK
+                </a>
+                <div class="flex items-center gap-4 text-gray-400">
+                    <a href="#" class="hover:text-green-500 transition-transform"><i data-lucide="github"></i></a>
+                    <a href="#" class="hover:text-green-500 transition-transform"><i data-lucide="linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative hidden lg:flex justify-center items-center perspective-1000">
+            <div id="hero-card" class="relative w-[320px] h-[420px] bg-zinc-900 rounded-[2rem] border border-white/10 p-4 shadow-2xl">
+                <div class="w-full h-full rounded-[1.5rem] overflow-hidden grayscale">
+                    <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- About Section -->
+    <!-- About Section: The Layered Masterpiece -->
+<section id="about" class="relative py-32 px-6 md:px-24 overflow-hidden bg-black">
+    
+    <!-- Large Background Watermark Text (Moves on Scroll) -->
+    <div class="absolute top-20 left-0 text-[15vw] font-black text-white/[0.02] whitespace-nowrap select-none pointer-events-none tracking-tighter" id="about-watermark">
+        PASSION • PRECISION • PERFECTION
+    </div>
+
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-16 items-center relative z-10">
+        
+        <!-- LEFT: The Visual Stack (Image + Floating UI) -->
+        <div class="lg:col-span-5 relative group">
+            <!-- Main Image Container with Clip-Path Reveal -->
+            <div class="about-img-container relative rounded-3xl overflow-hidden aspect-[4/5] border border-white/10 shadow-2xl">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800" 
+                     alt="Ben Greg" 
+                     id="about-portrait"
+                     class="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 scale-125">
+                
+                <!-- Inner Glow Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
+            </div>
+
+            <!-- Floating Stats Card 1 (Experience) -->
+            <div class="absolute -top-10 -left-10 glass p-8 rounded-3xl border-l-4 border-green-500 shadow-[0_20px_50px_rgba(0,0,0,0.5)] reveal-zoom z-20">
+                <span class="block text-5xl font-black text-white tracking-tighter" id="exp-count">5+</span>
+                <span class="text-green-500 font-bold text-xs uppercase tracking-[0.2em]">Years of Craft</span>
+            </div>
+
+            <!-- Floating Stats Card 2 (Education) -->
+            <div class="absolute -bottom-8 -right-8 glass p-6 rounded-2xl border border-white/10 flex items-center gap-4 reveal-zoom">
+                <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-black">
+                    <i data-lucide="graduation-cap"></i>
+                </div>
+                <div>
+                    <p class="text-white font-bold text-sm">CS Graduate</p>
+                    <p class="text-gray-400 text-[10px] uppercase">Tech Specialist</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT: The Narrative Content -->
+        <div class="lg:col-span-7 space-y-10">
+            <div class="space-y-4">
+                <div class="flex items-center gap-4 reveal">
+                    <div class="h-[2px] w-12 bg-green-500"></div>
+                    <span class="text-green-500 font-black tracking-[0.3em] text-xs uppercase">The Story So Far</span>
+                </div>
+                <h2 class="text-5xl md:text-7xl font-black text-white leading-none tracking-tighter reveal">
+                    NOT JUST CODE, <br>
+                    <span class="text-green-500 italic">DIGITAL ART.</span>
+                </h2>
+            </div>
+
+            <p class="text-xl md:text-2xl text-gray-300 leading-relaxed font-light reveal">
+                I am <span class="text-white font-bold">Ben Greg</span>, a visionary architect of the digital age. I transform complex business logic into <span class="text-green-400">breathtaking user experiences</span>. Every pixel I place is a result of calculated strategy and artistic passion.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-6 reveal">
+                <div class="p-6 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-green-500/50 transition-colors group">
+                    <h4 class="text-green-500 font-bold mb-2 flex items-center gap-2">
+                        <i data-lucide="target" class="w-4 h-4"></i> Strategy
+                    </h4>
+                    <p class="text-sm text-gray-400">High-frequency architecture designed for massive scale and zero-latency performance.</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-green-500/50 transition-colors">
+                    <h4 class="text-green-500 font-bold mb-2 flex items-center gap-2">
+                        <i data-lucide="zap" class="w-4 h-4"></i> Execution
+                    </h4>
+                    <p class="text-sm text-gray-400">Clean, scalable codebases that are as beautiful under the hood as they are on the screen.</p>
+                </div>
+            </div>
+
+            <div class="pt-6 reveal">
+                <a href="#contact" class="inline-flex items-center gap-4 text-white group">
+                    <span class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-green-500 group-hover:border-green-500 transition-all">
+                        <i data-lucide="arrow-right" class="group-hover:text-black"></i>
+                    </span>
+                    <span class="font-bold tracking-widest uppercase text-sm group-hover:text-green-500 transition-colors">Get to know me better</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Services Section -->
+    <!-- Services Section: The Cyber-Glass Hub -->
+<section id="services" class="relative py-32 px-6 md:px-24 bg-[#050505] overflow-hidden">
+    
+    <!-- Background Decor (Floating Gradients) -->
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-green-500/5 blur-[120px] rounded-full"></div>
+    <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-green-500/5 blur-[120px] rounded-full"></div>
+
+    <div class="max-w-7xl mx-auto relative z-10">
+        
+        <!-- Section Header -->
+        <div class="text-center mb-24 space-y-4">
+            <div class="reveal inline-block px-4 py-1 rounded-full border border-green-500/20 bg-green-500/5 text-green-500 text-xs font-bold tracking-[0.3em] uppercase">
+                Expertise & Solutions
+            </div>
+            <h2 class="reveal text-5xl md:text-7xl font-black text-white tracking-tighter">
+                UNMATCHED <span class="text-green-500">CAPABILITIES.</span>
+            </h2>
+            <p class="reveal text-gray-400 max-w-2xl mx-auto text-lg">
+                I don't just build websites. I engineer high-performance digital weapons designed to dominate your market.
+            </p>
+        </div>
+
+        <!-- Services Grid -->
+        <div class="grid lg:grid-cols-3 gap-8" id="services-grid">
+            
+            <!-- Service 1: Investment -->
+            <div class="service-card group relative p-10 rounded-[2.5rem] border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent overflow-hidden transition-all duration-500 hover:-translate-y-4 reveal-zoom">
+                <!-- Hover Glow Effect -->
+                <div class="glow-bg absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" 
+                     style="background: radial-gradient(600px circle at var(--x) var(--y), rgba(34, 197, 94, 0.15), transparent 40%);"></div>
+
+                <div class="relative z-10 space-y-6">
+                    <div class="w-16 h-16 bg-green-500/10 rounded-2xl flex items-center justify-center border border-green-500/20 group-hover:scale-110 group-hover:rotate-6 transition-transform">
+                        <i data-lucide="line-chart" class="w-8 h-8 text-green-500"></i>
+                    </div>
+                    
+                    <h3 class="text-3xl font-black text-white leading-tight">Investment <br><span class="text-green-500">Engines</span></h3>
+                    
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Architecture for high-frequency trading dashboards and secure fintech ecosystems. Precision-engineered for zero-latency data handling.
+                    </p>
+
+                    <div class="flex flex-wrap gap-2 pt-4">
+                        <span class="text-[10px] font-bold px-3 py-1 rounded-full border border-white/10 text-gray-500">SECURE SSL</span>
+                        <span class="text-[10px] font-bold px-3 py-1 rounded-full border border-white/10 text-gray-500">REAL-TIME API</span>
+                    </div>
+
+                    <div class="pt-6">
+                        <div class="h-[1px] w-full bg-white/5 group-hover:bg-green-500/50 transition-colors"></div>
+                        <button class="mt-4 flex items-center gap-2 text-xs font-black tracking-widest text-green-500 uppercase">
+                            View Integration <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 2: Streaming -->
+            <div class="service-card group relative p-10 rounded-[2.5rem] border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent overflow-hidden transition-all duration-500 hover:-translate-y-4 reveal-zoom">
+                <div class="glow-bg absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" 
+                     style="background: radial-gradient(600px circle at var(--x) var(--y), rgba(34, 197, 94, 0.15), transparent 40%);"></div>
+
+                <div class="relative z-10 space-y-6">
+                    <div class="w-16 h-16 bg-green-500/10 rounded-2xl flex items-center justify-center border border-green-500/20 group-hover:scale-110 group-hover:rotate-6 transition-transform">
+                        <i data-lucide="play-circle" class="w-8 h-8 text-green-500"></i>
+                    </div>
+                    
+                    <h3 class="text-3xl font-black text-white leading-tight">Streaming <br><span class="text-green-500">Ecosystems</span></h3>
+                    
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Custom VOD and Live broadcast platforms. Scalable infrastructures that handle 10k+ concurrent viewers with stunning clarity.
+                    </p>
+
+                    <div class="flex flex-wrap gap-2 pt-4">
+                        <span class="text-[10px] font-bold px-3 py-1 rounded-full border border-white/10 text-gray-500">HLS/DASH</span>
+                        <span class="text-[10px] font-bold px-3 py-1 rounded-full border border-white/10 text-gray-500">LOW LATENCY</span>
+                    </div>
+
+                    <div class="pt-6">
+                        <div class="h-[1px] w-full bg-white/5 group-hover:bg-green-500/50 transition-colors"></div>
+                        <button class="mt-4 flex items-center gap-2 text-xs font-black tracking-widest text-green-500 uppercase">
+                            Deploy Stream <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 3: Corporate -->
+            <div class="service-card group relative p-10 rounded-[2.5rem] border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent overflow-hidden transition-all duration-500 hover:-translate-y-4 reveal-zoom">
+                <div class="glow-bg absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" 
+                     style="background: radial-gradient(600px circle at var(--x) var(--y), rgba(34, 197, 94, 0.15), transparent 40%);"></div>
+
+                <div class="relative z-10 space-y-6">
+                    <div class="w-16 h-16 bg-green-500/10 rounded-2xl flex items-center justify-center border border-green-500/20 group-hover:scale-110 group-hover:rotate-6 transition-transform">
+                        <i data-lucide="globe" class="w-8 h-8 text-green-500"></i>
+                    </div>
+                    
+                    <h3 class="text-3xl font-black text-white leading-tight">Business <br><span class="text-green-500">Authority</span></h3>
+                    
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        High-ticket corporate identities and conversion engines. Turning cold traffic into loyal brand advocates through UX excellence.
+                    </p>
+
+                    <div class="flex flex-wrap gap-2 pt-4">
+                        <span class="text-[10px] font-bold px-3 py-1 rounded-full border border-white/10 text-gray-500">SEO ELITE</span>
+                        <span class="text-[10px] font-bold px-3 py-1 rounded-full border border-white/10 text-gray-500">UI MASTER</span>
+                    </div>
+
+                    <div class="pt-6">
+                        <div class="h-[1px] w-full bg-white/5 group-hover:bg-green-500/50 transition-colors"></div>
+                        <button class="mt-4 flex items-center gap-2 text-xs font-black tracking-widest text-green-500 uppercase">
+                            Scale Business <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+    <!-- Project Section (Horizontal Scroll/Zoom Effect) -->
+    <!-- Projects Section: The Cinematic Masterpiece -->
+<section id="projects" class="relative py-32 px-6 md:px-24 bg-[#050505] overflow-hidden">
+    
+    <!-- Section Header -->
+    <div class="max-w-7xl mx-auto mb-32 relative z-10">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <div class="space-y-4">
+                <div class="reveal flex items-center gap-3">
+                    <span class="w-12 h-[2px] bg-green-500"></span>
+                    <span class="text-green-500 font-black tracking-[0.3em] text-xs uppercase text-green-glow">Selected Works</span>
+                </div>
+                <h2 class="reveal text-6xl md:text-8xl font-black text-white tracking-tighter leading-none">
+                    CRAFTED <br> <span class="text-green-500 italic">SOLUTIONS.</span>
+                </h2>
+            </div>
+            <p class="reveal text-gray-400 max-w-sm text-lg border-l-2 border-white/10 pl-6">
+                A collection of high-impact platforms built with precision, scalability, and user-centric design.
+            </p>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto space-y-64">
+        
+        <!-- Project 1: Alpha-Invest -->
+        <div class="project-row group relative grid lg:grid-cols-12 gap-12 items-center">
+            <!-- Background Number -->
+            <div class="absolute -top-20 -left-10 text-[20rem] font-black text-white/[0.03] pointer-events-none select-none z-0">01</div>
+            
+            <!-- Project Image Wrapper -->
+            <div class="lg:col-span-7 relative z-10">
+                <div class="project-img-container relative rounded-[2rem] overflow-hidden border border-white/10 aspect-video shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1611974717483-582851cce974?auto=format&fit=crop&q=80&w=1200" 
+                         class="project-visual w-full h-full object-cover scale-150 transition-transform duration-1000">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-10">
+                        <div class="flex gap-4">
+                            <span class="px-4 py-2 rounded-full glass text-xs font-bold text-white uppercase">React.js</span>
+                            <span class="px-4 py-2 rounded-full glass text-xs font-bold text-white uppercase">Node.js</span>
+                            <span class="px-4 py-2 rounded-full glass text-xs font-bold text-white uppercase">Three.js</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Info -->
+            <div class="lg:col-span-5 space-y-8 relative z-20">
+                <div class="space-y-2">
+                    <h3 class="text-4xl md:text-5xl font-black text-white tracking-tighter group-hover:text-green-500 transition-colors">Alpha-Invest Engine</h3>
+                    <p class="text-green-500 font-bold tracking-widest text-xs uppercase">Fintech & High-Frequency Trading</p>
+                </div>
+                <p class="text-gray-400 text-lg leading-relaxed">
+                    A beast of a dashboard featuring 3D data visualization, real-time WebSocket integration, and automated trading bots. Designed for high-stakes institutional investors.
+                </p>
+                <div class="flex items-center gap-8 py-4">
+                    <div>
+                        <p class="text-2xl font-black text-white">99.9%</p>
+                        <p class="text-[10px] text-gray-500 uppercase font-bold">Uptime</p>
+                    </div>
+                    <div class="w-[1px] h-10 bg-white/10"></div>
+                    <div>
+                        <p class="text-2xl font-black text-white">250ms</p>
+                        <p class="text-[10px] text-gray-500 uppercase font-bold">Latency</p>
+                    </div>
+                </div>
+                <a href="#" class="inline-flex items-center gap-4 px-8 py-4 bg-white text-black font-black rounded-2xl hover:bg-green-500 transition-all hover:scale-105 active:scale-95">
+                    VIEW CASE STUDY <i data-lucide="external-link" class="w-5 h-5"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Project 2: StreamFlow -->
+        <div class="project-row group relative grid lg:grid-cols-12 gap-12 items-center lg:flex-row-reverse">
+             <!-- Background Number -->
+             <div class="absolute -top-20 -right-10 text-[20rem] font-black text-white/[0.03] pointer-events-none select-none z-0 text-right w-full">02</div>
+
+            <div class="lg:col-span-7 lg:order-2 relative z-10">
+                <div class="project-img-container relative rounded-[2rem] overflow-hidden border border-white/10 aspect-video shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&q=80&w=1200" 
+                         class="project-visual w-full h-full object-cover scale-150 transition-transform duration-1000">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-10">
+                        <div class="flex gap-4">
+                            <span class="px-4 py-2 rounded-full glass text-xs font-bold text-white uppercase">Next.js</span>
+                            <span class="px-4 py-2 rounded-full glass text-xs font-bold text-white uppercase">AWS S3</span>
+                            <span class="px-4 py-2 rounded-full glass text-xs font-bold text-white uppercase">WebRTC</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5 lg:order-1 space-y-8 relative z-20">
+                <div class="space-y-2">
+                    <h3 class="text-4xl md:text-5xl font-black text-white tracking-tighter group-hover:text-green-500 transition-colors">StreamFlow Pro</h3>
+                    <p class="text-green-500 font-bold tracking-widest text-xs uppercase">Enterprise Streaming Solution</p>
+                </div>
+                <p class="text-gray-400 text-lg leading-relaxed">
+                    Custom-built VOD infrastructure capable of handling 10,000+ concurrent viewers. Features multi-bitrate adaptive streaming and real-time user analytics.
+                </p>
+                <div class="flex items-center gap-8 py-4">
+                    <div>
+                        <p class="text-2xl font-black text-white">10K+</p>
+                        <p class="text-[10px] text-gray-500 uppercase font-bold">Live Users</p>
+                    </div>
+                    <div class="w-[1px] h-10 bg-white/10"></div>
+                    <div>
+                        <p class="text-2xl font-black text-white">4K</p>
+                        <p class="text-[10px] text-gray-500 uppercase font-bold">Quality</p>
+                    </div>
+                </div>
+                <a href="#" class="inline-flex items-center gap-4 px-8 py-4 border-2 border-green-500 text-green-500 font-black rounded-2xl hover:bg-green-500 hover:text-black transition-all hover:scale-105 active:scale-95">
+                    LIVE DEMO <i data-lucide="play" class="w-5 h-5"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+    <!-- Testimonials -->
+<!-- Testimonials: The "Elite Authority" Showcase -->
+<section id="testimonial" class="relative py-32 px-6 md:px-24 bg-[#050505] overflow-visible">
+    
+    <!-- Background Decor -->
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-green-500/5 blur-[150px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto relative z-10">
+        
+        <!-- Section Header: Refined Typography -->
+        <div class="grid lg:grid-cols-2 gap-8 items-end mb-20">
+            <div class="space-y-4">
+                <div class="reveal flex items-center gap-3">
+                    <span class="w-12 h-[2px] bg-green-500"></span>
+                    <span class="text-green-500 font-bold tracking-[0.3em] text-xs uppercase">Proof of Excellence</span>
+                </div>
+                <h2 class="reveal text-5xl md:text-7xl font-black text-white tracking-tighter leading-none">
+                    TRUSTED BY <br> <span class="text-green-500 italic">THE BEST.</span>
+                </h2>
+            </div>
+            <div class="reveal border-l border-white/10 pl-8 pb-2">
+                <p class="text-gray-400 text-lg max-w-sm leading-relaxed">
+                    I don't just build platforms; I engineer long-term success stories for global enterprises.
+                </p>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid lg:grid-cols-12 gap-8 items-stretch">
+            
+            <!-- LEFT: The Swiper Slider (8 Columns) -->
+            <div class="lg:col-span-8 reveal-slide-right flex flex-col">
+                <div class="swiper testimonialSwiper w-full h-full">
+                    <div class="swiper-wrapper">
+                        
+                        <!-- Slide 1 -->
+                        <div class="swiper-slide h-full">
+                            <div class="flex-1 p-8 md:p-12 rounded-[2.5rem] bg-zinc-900/40 backdrop-blur-3xl border border-white/5 flex flex-col justify-between group transition-all duration-500 hover:border-green-500/20 relative overflow-hidden">
+                                <!-- Subtle Quote Icon Background -->
+                                <i data-lucide="quote" class="absolute -top-4 -right-4 w-32 h-32 text-white/[0.02] group-hover:text-green-500/[0.05] transition-colors"></i>
+                                
+                                <div class="space-y-8 relative z-10">
+                                    <!-- Stars -->
+                                    <div class="flex gap-1 text-green-500">
+                                        <i data-lucide="star" class="fill-current w-4 h-4"></i>
+                                        <i data-lucide="star" class="fill-current w-4 h-4"></i>
+                                        <i data-lucide="star" class="fill-current w-4 h-4"></i>
+                                        <i data-lucide="star" class="fill-current w-4 h-4"></i>
+                                        <i data-lucide="star" class="fill-current w-4 h-4"></i>
+                                    </div>
+                                    <!-- Testimonial Text -->
+                                    <p class="text-xl md:text-2xl font-medium text-gray-200 leading-relaxed italic">
+                                        "Ben Greg delivered an investment platform that exceeded every expectation. The 3D animations and speed of the site are world-class. Our conversion rate tripled within a month."
+                                    </p>
+                                </div>
+
+                                <!-- User Info -->
+                                <div class="flex items-center gap-5 pt-8 mt-8 border-t border-white/5">
+                                    <div class="w-14 h-14 rounded-xl bg-green-500/20 border border-green-500/40 p-0.5">
+                                        <img src="https://i.pravatar.cc/150?u=1" class="w-full h-full object-cover rounded-[10px]">
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-bold text-white leading-none">Alexander Thorne</h4>
+                                        <p class="text-green-500 text-xs font-bold uppercase tracking-widest mt-1">CEO, Nova Capital</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2 -->
+                        <div class="swiper-slide h-full">
+                            <div class="flex-1 p-8 md:p-12 rounded-[2.5rem] bg-zinc-900/40 backdrop-blur-3xl border border-white/5 flex flex-col justify-between group transition-all duration-500 hover:border-green-500/20 relative overflow-hidden">
+                                <i data-lucide="quote" class="absolute -top-4 -right-4 w-32 h-32 text-white/[0.02] group-hover:text-green-500/[0.05] transition-colors"></i>
+                                <div class="space-y-8 relative z-10">
+                                    <div class="flex gap-1 text-green-500">
+                                        <i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i>
+                                    </div>
+                                    <p class="text-xl md:text-2xl font-medium text-gray-200 leading-relaxed italic">
+                                        "The streaming infrastructure Ben built handles our 15k+ users without a single frame drop. Truly a genius when it comes to scalable architecture."
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-5 pt-8 mt-8 border-t border-white/5">
+                                    <div class="w-14 h-14 rounded-xl bg-green-500/20 border border-green-500/40 p-0.5">
+                                        <img src="https://i.pravatar.cc/150?u=2" class="w-full h-full object-cover rounded-[10px]">
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-bold text-white leading-none">Sarah Jenkins</h4>
+                                        <p class="text-green-500 text-xs font-bold uppercase tracking-widest mt-1">CTO, StreamPulse</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Slider Controls: Sharp and Minimal -->
+                <div class="flex gap-3 mt-8">
+                    <button class="swiper-prev w-12 h-12 rounded-xl border border-white/10 flex items-center justify-center hover:bg-green-500 hover:text-black hover:border-green-500 transition-all duration-300">
+                        <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                    </button>
+                    <button class="swiper-next w-12 h-12 rounded-xl border border-white/10 flex items-center justify-center hover:bg-green-500 hover:text-black hover:border-green-500 transition-all duration-300">
+                        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- RIGHT: Metrics Column (4 Columns) -->
+            <div class="lg:col-span-4 flex flex-col gap-5 reveal-slide-left">
+                
+                <!-- Metric Card 1: Success Rate -->
+                <div class="flex-1 p-8 rounded-[2rem] bg-green-500 text-black flex flex-col justify-between group overflow-hidden relative shadow-[0_20px_40px_rgba(34,197,94,0.2)]">
+                    <div class="flex justify-between items-start relative z-10">
+                        <div class="w-10 h-10 bg-black/10 rounded-lg flex items-center justify-center">
+                            <i data-lucide="trending-up" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-[10px] font-black tracking-widest uppercase opacity-60">Performance</span>
+                    </div>
+                    <div class="relative z-10">
+                        <p class="text-5xl font-black tracking-tighter leading-none">99.9%</p>
+                        <p class="text-xs font-bold uppercase tracking-widest mt-2 opacity-80">Satisfaction Rate</p>
+                    </div>
+                    <!-- Decorative Circle -->
+                    <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-white/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                </div>
+
+                <!-- Metric Card 2: Support -->
+                <div class="flex-1 p-8 rounded-[2rem] bg-zinc-900 border border-white/5 flex flex-col justify-between hover:border-green-500/30 transition-all duration-500">
+                    <div class="flex justify-between items-start">
+                        <div class="w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center">
+                            <i data-lucide="zap" class="w-5 h-5 text-green-500"></i>
+                        </div>
+                        <div class="flex gap-1 h-4 items-end">
+                            <div class="w-1 h-3 bg-green-500/40 animate-[pulse_1.5s_infinite]"></div>
+                            <div class="w-1 h-5 bg-green-500 animate-[pulse_1s_infinite]"></div>
+                            <div class="w-1 h-2 bg-green-500/60 animate-[pulse_2s_infinite]"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-5xl font-black text-white tracking-tighter leading-none">24/7</p>
+                        <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mt-2">Elite Infrastructure Support</p>
+                    </div>
+                </div>
+
+                <!-- Metric Card 3: CTA -->
+                <a href="#contact" class="p-6 rounded-[1.5rem] border border-dashed border-white/10 flex items-center gap-4 hover:border-green-500/50 hover:bg-green-500/5 transition-all duration-300 group">
+                    <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-green-500 group-hover:text-black transition-all">
+                        <i data-lucide="plus" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <p class="text-white font-bold text-sm uppercase tracking-tight">Join the Elite</p>
+                        <p class="text-gray-500 text-[10px] uppercase tracking-widest">Start a Project</p>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Contact Section -->
+    <!-- Contact Section: The Elite Portal -->
+<section id="contact" class="relative py-32 px-6 md:px-24 bg-black overflow-hidden">
+    
+    <!-- Background Watermark (Kinetic Text) -->
+    <div class="absolute bottom-10 left-0 text-[18vw] font-black text-white/[0.05] whitespace-nowrap select-none pointer-events-none tracking-tighter" id="contact-watermark">
+        CONNECT • CONNECT • CONNECT
+    </div>
+
+    <div class="max-w-7xl mx-auto relative z-10">
+        
+        <!-- Section Header -->
+        <div class="mb-20 space-y-4 text-center md:text-left">
+            <div class="reveal inline-flex items-center gap-3">
+                <span class="w-12 h-[2px] bg-green-500"></span>
+                <span class="text-green-500 font-black tracking-[0.4em] text-xs uppercase">Available Now</span>
+            </div>
+            <h2 class="reveal text-6xl md:text-8xl font-black text-white tracking-tighter leading-none">
+                LET'S BUILD <br> <span class="text-green-500 italic">THE FUTURE.</span>
+            </h2>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            
+            <!-- Email Power Card -->
+            <a href="mailto:fidelitywealth9@gmail.com" class="contact-card group relative p-10 md:p-16 rounded-[3rem] bg-zinc-900/40 border border-white/5 overflow-hidden transition-all duration-700 hover:border-green-500/50 reveal-up">
+                <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                
+                <div class="relative z-10 space-y-10">
+                    <div class="w-20 h-20 bg-white/5 rounded-3xl flex items-center justify-center group-hover:bg-green-500 group-hover:rotate-[15deg] transition-all duration-500">
+                        <i data-lucide="mail" class="w-10 h-10 text-green-500 group-hover:text-black"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-gray-500 font-bold uppercase tracking-widest text-xs mb-2">Drop me a line</h3>
+                        <p class="text-2xl md:text-4xl font-black text-white break-words group-hover:text-green-500 transition-colors">fidelitywealth9<br>@gmail.com</p>
+                    </div>
+                    <div class="flex items-center gap-3 text-green-500 font-black text-sm tracking-widest uppercase">
+                        Send Email <i data-lucide="arrow-up-right" class="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform"></i>
+                    </div>
+                </div>
+            </a>
+
+            <!-- WhatsApp Power Card -->
+            <a href="https://wa.me/23491606706275" target="_blank" class="contact-card group relative p-10 md:p-16 rounded-[3rem] bg-zinc-900/40 border border-white/5 overflow-hidden transition-all duration-700 hover:border-green-500/50 reveal-up" style="transition-delay: 0.2s;">
+                <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                
+                <div class="relative z-10 space-y-10">
+                    <div class="w-20 h-20 bg-white/5 rounded-3xl flex items-center justify-center group-hover:bg-green-500 group-hover:rotate-[-15deg] transition-all duration-500">
+                        <i data-lucide="message-circle" class="w-10 h-10 text-green-500 group-hover:text-black"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-gray-500 font-bold uppercase tracking-widest text-xs mb-2">Chat with me</h3>
+                        <p class="text-2xl md:text-4xl font-black text-white group-hover:text-green-500 transition-colors">+234 916 067 062 75</p>
+                    </div>
+                    <div class="flex items-center gap-3 text-green-500 font-black text-sm tracking-widest uppercase">
+                        Open WhatsApp <i data-lucide="arrow-up-right" class="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform"></i>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- Social Links (Old School Style) -->
+        <div class="mt-20 flex flex-wrap justify-center gap-12 reveal">
+            <a href="#" class="group flex items-center gap-3 text-gray-500 hover:text-white transition-colors">
+                <span class="text-xs font-black tracking-widest uppercase">Github</span>
+                <div class="w-8 h-[1px] bg-gray-800 group-hover:w-12 group-hover:bg-green-500 transition-all"></div>
+            </a>
+            <a href="#" class="group flex items-center gap-3 text-gray-500 hover:text-white transition-colors">
+                <span class="text-xs font-black tracking-widest uppercase">LinkedIn</span>
+                <div class="w-8 h-[1px] bg-gray-800 group-hover:w-12 group-hover:bg-green-500 transition-all"></div>
+            </a>
+            <a href="#" class="group flex items-center gap-3 text-gray-500 hover:text-white transition-colors">
+                <span class="text-xs font-black tracking-widest uppercase">Twitter</span>
+                <div class="w-8 h-[1px] bg-gray-800 group-hover:w-12 group-hover:bg-green-500 transition-all"></div>
+            </a>
+        </div>
+    </div>
+</section>
+
+    <footer class="py-12 border-t border-white/5 text-center text-gray-500 text-sm">
+        <p>&copy; 2024 Ben Greg. All Rights Reserved. Built with Precision.</p>
+    </footer>
+
+   <script>
+    /**
+     * BEN GREG PORTFOLIO - MASTER SCRIPT
+     * Fixed, Structured & Fully Optimized
+     */
+
+    // 1. GLOBAL INITIALIZATION
+    gsap.registerPlugin(ScrollTrigger);
+    lucide.createIcons();
+
+    // 2. THREE.JS BACKGROUND SYSTEM
+    let scene, camera, renderer, particlesMesh;
+
+    function initThreeJS() {
+        const container = document.getElementById('canvas-container');
+        if(!container) return;
+
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 1500;
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for (let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 10;
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const material = new THREE.PointsMaterial({
+            size: 0.005,
+            color: '#22c55e',
+            transparent: true,
+            opacity: 0.8
+        });
+
+        particlesMesh = new THREE.Points(particlesGeometry, material);
+        scene.add(particlesMesh);
+        camera.position.z = 3;
+
+        function animateThree() {
+            requestAnimationFrame(animateThree);
+            particlesMesh.rotation.y += 0.001;
+            particlesMesh.rotation.x += 0.0005;
+            renderer.render(scene, camera);
+        }
+        animateThree();
+    }
+
+    // 3. NAVIGATION & UI LOGIC
+    function initNavigation() {
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const closeBtn = document.getElementById('close-menu');
+        const overlay = document.getElementById('mobile-overlay');
+        const navItems = document.querySelectorAll('.mobile-nav-item');
+        const header = document.getElementById('main-header');
+
+        if(menuBtn && overlay) {
+            menuBtn.addEventListener('click', () => {
+                overlay.classList.remove('translate-x-full');
+                overlay.classList.add('active');
+            });
+        }
+
+        if(closeBtn && overlay) {
+            const closeMenu = () => {
+                overlay.classList.add('translate-x-full');
+                overlay.classList.remove('active');
+            };
+            closeBtn.addEventListener('click', closeMenu);
+            navItems.forEach(item => item.addEventListener('click', closeMenu));
+        }
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                e.preventDefault();
+                const targetEl = document.querySelector(targetId);
+                if(targetEl) targetEl.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    }
+
+    // 4. MASTER ENTRANCE ANIMATIONS (Hero Section)
+    function initEntranceAnimations() {
+        const tl = gsap.timeline();
+        gsap.set(".hero-text-area > *", { opacity: 0, y: 50 });
+        gsap.set("#main-header nav", { y: -100, opacity: 0 });
+
+        tl.to("#main-header nav", {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "expo.out"
+        })
+        .to(".hero-text-area > *", {
+            opacity: 1,
+            y: 0,
+            stagger: 0.15,
+            duration: 1.2,
+            ease: "power4.out"
+        }, "-=0.5")
+        .fromTo("#hero-card", 
+            { scale: 0.5, opacity: 0, rotationY: -30 },
+            { scale: 1, opacity: 1, rotationY: -10, duration: 1.5, ease: "elastic.out(1, 0.75)" },
+            "-=1"
+        );
+    }
+
+    // 5. SECTION-SPECIFIC SCROLL ANIMATIONS
+function initScrollAnimations() {
+    // 1. Generic Reveal for most items
+    gsap.utils.toArray('.reveal, .reveal-up').forEach((el) => {
+        gsap.to(el, {
+            scrollTrigger: {
+                trigger: el,
+                start: "top 95%", 
+                toggleActions: "play none none reverse"
+            },
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+            ease: "power3.out",
+            overwrite: "auto"
+        });
+    });
+
+    // 2. Special Zoom Reveal for the "Years Craft" Badge
+    gsap.utils.toArray('.reveal-zoom').forEach((el) => {
+        gsap.to(el, {
+            scrollTrigger: {
+                trigger: el,
+                start: "top 90%",
+            },
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 1.5,
+            ease: "elastic.out(1, 0.5)", // Gives it that premium "pop"
+        });
+    });
+
+    // 3. About: Watermark & Image Zoom
+    gsap.to("#about-watermark", {
+        scrollTrigger: { trigger: "#about", start: "top bottom", end: "bottom top", scrub: 2 },
+        x: -300
+    });
+
+    gsap.to("#about-portrait", {
+        scrollTrigger: { trigger: "#about", start: "top bottom", end: "bottom top", scrub: true },
+        scale: 1,
+        ease: "none"
+    });
+
+    // 4. About: Counter
+    gsap.from("#exp-count", {
+        scrollTrigger: { trigger: "#about", start: "top 60%" },
+        innerHTML: 0,
+        duration: 2,
+        snap: { innerHTML: 1 }
+    });
+
+    // 5. Services: 3D Card ULTRA-FAST TRIGGER
+    gsap.utils.toArray('#services .service-card').forEach((card) => {
+        gsap.fromTo(card, 
+            { scale: 0.85, opacity: 0, rotationX: -15, y: 40 }, 
+            {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 100%",    
+                    toggleActions: "play reverse play reverse", 
+                },
+                scale: 1, opacity: 1, rotationX: 0, y: 0,
+                duration: 0.4, ease: "expo.out", overwrite: "auto"
+            }
+        );
+    });
+
+    // 6. Projects & Testimonials
+    gsap.utils.toArray('.project-visual').forEach(img => {
+        gsap.to(img, {
+            scrollTrigger: { trigger: img, start: "top bottom", end: "bottom top", scrub: true },
+            scale: 1, ease: "none"
+        });
+    });
+
+    gsap.to(".reveal-slide-right", { scrollTrigger: { trigger: "#testimonial", start: "top 70%" }, opacity: 1, x: 0, duration: 1.2 });
+    gsap.to(".reveal-slide-left", { scrollTrigger: { trigger: "#testimonial", start: "top 70%" }, opacity: 1, x: 0, duration: 1.2, delay: 0.2 });
+    
+    // 7. Contact Watermark
+    gsap.to("#contact-watermark", {
+        scrollTrigger: { trigger: "#contact", start: "top bottom", end: "bottom top", scrub: 1 },
+        x: -100 
+    });
+}
+
+    // 6. INTERACTIVE MOUSE EFFECTS
+    function initMouseInteractions() {
+        const heroCard = document.getElementById('hero-card');
+        const heroSection = document.querySelector('section');
+
+        if(heroCard && heroSection) {
+            heroSection.addEventListener('mousemove', (e) => {
+                if (window.innerWidth < 1024) return;
+                let xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                let yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                heroCard.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            });
+
+            heroSection.addEventListener('mouseleave', () => {
+                heroCard.style.transition = 'all 0.5s ease';
+                heroCard.style.transform = `rotateY(-10deg) rotateX(5deg)`;
+            });
+        }
+
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                card.style.setProperty('--x', `${e.clientX - rect.left}px`);
+                card.style.setProperty('--y', `${e.clientY - rect.top}px`);
+            });
+        });
+
+        document.querySelectorAll('.group.relative, .contact-card').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = (e.clientX - rect.left - rect.width / 2) * 0.3;
+                const y = (e.clientY - rect.top - rect.height / 2) * 0.3;
+                gsap.to(btn, { x, y, duration: 0.3, ease: "power2.out" });
+            });
+            btn.addEventListener('mouseleave', () => {
+                gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" });
+            });
+        });
+    }
+
+    // 7. EXTERNAL LIBRARIES (Swiper)
+    function initSwiper() {
+        if(!document.querySelector('.testimonialSwiper')) return;
+        
+        new Swiper('.testimonialSwiper', {
+            slidesPerView: 1,
+            spaceBetween: 0,
+            loop: true,
+            speed: 800,
+            grabCursor: true,
+            watchSlidesProgress: true,
+            effect: 'creative',
+            creativeEffect: {
+                prev: { translate: ['-120%', 0, -500], opacity: 0, scale: 0.8 },
+                next: { translate: ['120%', 0, 0], opacity: 0 },
+            },
+            navigation: {
+                nextEl: '.swiper-next',
+                prevEl: '.swiper-prev',
+            },
+            observer: true,
+            observeParents: true,
+            on: {
+                init: function () {
+                    setTimeout(() => { this.update(); }, 100);
+                },
+            }
+        });
+    }
+
+    // WINDOW RESIZE HANDLER
+    window.addEventListener('resize', () => {
+        if(camera && renderer) {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+    });
+
+    // START EVERYTHING ON LOAD
+    window.addEventListener('load', () => {
+        initThreeJS();
+        initNavigation();
+        initEntranceAnimations();
+        initScrollAnimations();
+        initMouseInteractions();
+        initSwiper();
+        
+        window.addEventListener('scroll', () => {
+            if(particlesMesh) {
+                particlesMesh.position.y = window.pageYOffset * 0.0005;
+            }
+        });
+    });
+</script>
+</body>
+</html>
