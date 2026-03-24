@@ -383,6 +383,25 @@ header.scrolled .glass {
 header {
     max-width: 100vw;
 }
+/* Prevent hover/mouse interactions from affecting layout on touch devices */
+@media (max-width: 1024px) {
+    .service-card, .contact-card, .group.relative {
+        transform: none !important;
+        transition: none !important;
+    }
+    
+    /* Disable the glow effect on mobile to save performance and prevent flickering */
+    .glow-bg {
+        display: none !important;
+    }
+}
+
+/* Ensure buttons don't stay "stuck" in hover state on mobile */
+@media (hover: none) {
+    .card-gradient:hover {
+        transform: none !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -1367,44 +1386,57 @@ function initScrollAnimations() {
 }
 
     // 6. INTERACTIVE MOUSE EFFECTS
-    function initMouseInteractions() {
-        const heroCard = document.getElementById('hero-card');
-        const heroSection = document.querySelector('section');
+   function initMouseInteractions() {
+    const heroCard = document.getElementById('hero-card');
+    const heroSection = document.querySelector('section');
 
-        if(heroCard && heroSection) {
-            heroSection.addEventListener('mousemove', (e) => {
-                if (window.innerWidth < 1024) return;
-                let xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-                let yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-                heroCard.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-            });
-
-            heroSection.addEventListener('mouseleave', () => {
-                heroCard.style.transition = 'all 0.5s ease';
-                heroCard.style.transform = `rotateY(-10deg) rotateX(5deg)`;
-            });
-        }
-
-        document.querySelectorAll('.service-card').forEach(card => {
-            card.addEventListener('mousemove', e => {
-                const rect = card.getBoundingClientRect();
-                card.style.setProperty('--x', `${e.clientX - rect.left}px`);
-                card.style.setProperty('--y', `${e.clientY - rect.top}px`);
-            });
+    // 1. Hero Card Tilt Logic
+    if(heroCard && heroSection) {
+        heroSection.addEventListener('mousemove', (e) => {
+            // Stop logic if screen is smaller than 1024px
+            if (window.innerWidth < 1024) return; 
+            
+            let xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            let yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            heroCard.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
         });
 
-        document.querySelectorAll('.group.relative, .contact-card').forEach(btn => {
-            btn.addEventListener('mousemove', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const x = (e.clientX - rect.left - rect.width / 2) * 0.3;
-                const y = (e.clientY - rect.top - rect.height / 2) * 0.3;
-                gsap.to(btn, { x, y, duration: 0.3, ease: "power2.out" });
-            });
-            btn.addEventListener('mouseleave', () => {
-                gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" });
-            });
+        heroSection.addEventListener('mouseleave', () => {
+            heroCard.style.transition = 'all 0.5s ease';
+            heroCard.style.transform = `rotateY(-10deg) rotateX(5deg)`;
         });
     }
+
+    // 2. Service Card Glow Logic
+    document.querySelectorAll('.service-card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+            // Stop logic if screen is smaller than 1024px
+            if (window.innerWidth < 1024) return;
+
+            const rect = card.getBoundingClientRect();
+            card.style.setProperty('--x', `${e.clientX - rect.left}px`);
+            card.style.setProperty('--y', `${e.clientY - rect.top}px`);
+        });
+    });
+
+    // 3. Magnetic Buttons / Contact Cards (The "Scattering" Fix)
+    document.querySelectorAll('.group.relative, .contact-card').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            // VERY IMPORTANT: Stop elements from following fingers on mobile
+            if (window.innerWidth < 1024) return;
+
+            const rect = btn.getBoundingClientRect();
+            const x = (e.clientX - rect.left - rect.width / 2) * 0.3;
+            const y = (e.clientY - rect.top - rect.height / 2) * 0.3;
+            gsap.to(btn, { x, y, duration: 0.3, ease: "power2.out" });
+        });
+        
+        btn.addEventListener('mouseleave', () => {
+            // Always allow reset, but skip if already at 0
+            gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" });
+        });
+    });
+}
 
     // 7. EXTERNAL LIBRARIES (Swiper)
     function initSwiper() {
